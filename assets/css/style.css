@@ -1,0 +1,371 @@
+/* ============================================================
+   PROJECT LOG — design tokens
+   Concept: a personal card catalog. Each project is an index
+   card pulled from the drawer, stamped with its status like a
+   library due-date stamp.
+   ============================================================ */
+
+:root {
+  --paper:      #EAE4D5;   /* room / background */
+  --card:       #F7F3E7;   /* index card stock */
+  --card-edge:  #DCD3BC;   /* card border, slightly darker than stock */
+  --ink:        #232019;   /* primary text */
+  --ink-soft:   #5B5648;   /* secondary text */
+  --rule:       #C7BCA1;   /* hairlines / dividers */
+  --stamp-red:  #8B2E28;   /* status: active */
+  --stamp-teal: #1F5C52;   /* status: shipped */
+  --stamp-gray: #746C5C;   /* status: archived */
+
+  --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --body:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono:  "IBM Plex Mono", "SF Mono", Consolas, monospace;
+
+  --radius: 3px;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(35,32,25,0.05) 1px, transparent 0);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+a { color: inherit; }
+
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* ---------------- Header ---------------- */
+
+.site-header {
+  padding: 56px 0 28px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.site-header .kicker {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.site-header .kicker::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--stamp-red);
+  display: inline-block;
+}
+
+.site-header h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.site-header h1 a { text-decoration: none; color: var(--ink); }
+
+.site-header p {
+  color: var(--ink-soft);
+  max-width: 46em;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.site-nav {
+  margin-top: 22px;
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.site-nav a {
+  text-decoration: none;
+  color: var(--ink-soft);
+  border-bottom: 1px solid transparent;
+}
+
+.site-nav a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* ---------------- Catalog grid (index page) ---------------- */
+
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  padding: 48px 0 80px;
+}
+
+.card {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--card-edge);
+  border-radius: var(--radius);
+  padding: 22px 20px 20px;
+  text-decoration: none;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  min-height: 190px;
+  box-shadow: 0 1px 0 var(--card-edge);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px) rotate(-0.4deg);
+  box-shadow: 0 10px 18px -12px rgba(35,32,25,0.35);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.card .index-no {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  letter-spacing: 0.06em;
+}
+
+.card h2 {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin: 10px 0 8px;
+  line-height: 1.25;
+}
+
+.card .summary {
+  color: var(--ink-soft);
+  font-size: 0.93rem;
+  flex-grow: 1;
+  margin: 0 0 14px;
+}
+
+.card .card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px dashed var(--rule);
+  padding-top: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+/* the stamp — a status mark rotated like an ink stamp */
+.stamp {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
+  transform: rotate(6deg);
+  opacity: 0.9;
+}
+
+.stamp.active  { color: var(--stamp-red); }
+.stamp.shipped { color: var(--stamp-teal); }
+.stamp.archived,
+.stamp.experiment { color: var(--stamp-gray); }
+
+/* ---------------- Empty state ---------------- */
+
+.empty-drawer {
+  padding: 60px 0;
+  text-align: center;
+  color: var(--ink-soft);
+  font-family: var(--mono);
+  font-size: 14px;
+  border: 1px dashed var(--rule);
+  border-radius: var(--radius);
+}
+
+/* ---------------- Project (single doc) page ---------------- */
+
+.project-head {
+  padding: 48px 0 28px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.project-head .back {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 18px;
+}
+
+.project-head .back:hover { color: var(--ink); }
+
+.project-head h1 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4.4vw, 2.9rem);
+  font-weight: 600;
+  margin: 0 0 14px;
+  letter-spacing: -0.01em;
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  align-items: center;
+}
+
+.meta-row .label { color: var(--ink); font-weight: 600; margin-right: 4px; }
+
+.tag-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 2px 8px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  color: var(--ink-soft);
+}
+
+.project-body {
+  padding: 40px 0 90px;
+  max-width: 720px;
+}
+
+.project-body h2 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  margin: 2em 0 0.6em;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 6px;
+}
+
+.project-body h3 {
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin: 1.8em 0 0.5em;
+}
+
+.project-body p { margin: 0 0 1.1em; }
+
+.project-body ul, .project-body ol {
+  padding-left: 1.3em;
+  margin: 0 0 1.1em;
+}
+
+.project-body li { margin-bottom: 0.4em; }
+
+.project-body a {
+  color: var(--stamp-teal);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.project-body code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--card);
+  border: 1px solid var(--card-edge);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.project-body pre {
+  background: var(--ink);
+  color: #EFE9DB;
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.project-body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+}
+
+.project-body blockquote {
+  margin: 1.4em 0;
+  padding: 4px 0 4px 18px;
+  border-left: 3px solid var(--stamp-red);
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.project-body img {
+  max-width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--card-edge);
+}
+
+.project-body hr {
+  border: none;
+  border-top: 1px dashed var(--rule);
+  margin: 2.4em 0;
+}
+
+/* ---------------- Footer ---------------- */
+
+.site-footer {
+  border-top: 1px solid var(--rule);
+  padding: 26px 0 60px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ---------------- Motion & accessibility ---------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .card { transition: none; }
+  .card:hover { transform: none; }
+}
+
+@media (max-width: 560px) {
+  .site-header { padding: 40px 0 22px; }
+  .catalog { padding: 32px 0 60px; grid-template-columns: 1fr; }
+}

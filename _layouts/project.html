@@ -1,0 +1,25 @@
+---
+layout: default
+---
+<div class="wrap">
+  <div class="project-head">
+    <a class="back" href="{{ '/' | relative_url }}">&larr; back to catalog</a>
+    <h1>{{ page.title }}</h1>
+    <div class="meta-row">
+      {% if page.status %}<span><span class="label">status</span>{{ page.status }}</span>{% endif %}
+      {% if page.date %}<span><span class="label">started</span>{{ page.date | date: "%b %Y" }}</span>{% endif %}
+      {% if page.stack %}<span><span class="label">stack</span>{{ page.stack | join: ", " }}</span>{% endif %}
+      {% if page.repo %}<span><a class="label" href="{{ page.repo }}" target="_blank" rel="noopener">source ↗</a></span>{% endif %}
+      {% if page.demo %}<span><a class="label" href="{{ page.demo }}" target="_blank" rel="noopener">live demo ↗</a></span>{% endif %}
+    </div>
+    {% if page.tags %}
+    <div class="tag-list" style="margin-top:14px;">
+      {% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  <article class="project-body">
+    {{ content }}
+  </article>
+</div>

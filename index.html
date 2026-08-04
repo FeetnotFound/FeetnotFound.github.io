@@ -1,0 +1,29 @@
+---
+layout: default
+title: null
+---
+<div class="wrap">
+  {% assign projects = site.projects | sort: "date" | reverse %}
+
+  {% if projects.size == 0 %}
+    <div class="empty-drawer">
+      the drawer is empty — add a file to <code>_projects/</code> to file your first entry
+    </div>
+  {% else %}
+    <div class="catalog">
+      {% for project in projects %}
+        <a class="card" href="{{ project.url | relative_url }}">
+          {% assign status = project.status | default: "active" | downcase %}
+          <span class="stamp {{ status }}">{{ project.status | default: "Active" }}</span>
+          <span class="index-no">{{ "now" | date: "%Y" }} · No. {{ forloop.rindex | plus: 100 }}</span>
+          <h2>{{ project.title }}</h2>
+          <p class="summary">{{ project.summary }}</p>
+          <div class="card-foot">
+            <span>{{ project.date | date: "%b %Y" }}</span>
+            <span>{{ project.stack | first }}{% if project.stack.size > 1 %} +{{ project.stack.size | minus: 1 }}{% endif %}</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
