@@ -1,3 +1,46 @@
-theme: jekyll-theme-minimal
-title: Octocat's homepage
-description: Bookmark this to keep an eye on my project updates!
+title: "Project Log"
+description: "A catalog of things I've built."
+author: "Your Name"
+
+# ---- URL settings ----
+# If this repo is your USER page (username.github.io), leave baseurl blank.
+# If this repo is a PROJECT page (username.github.io/repo-name), set:
+#   baseurl: "/repo-name"
+baseurl: ""
+url: ""
+
+# ---- Collections ----
+# Everything in _projects/ becomes a project page automatically.
+collections:
+  projects:
+    output: true
+    permalink: /projects/:path/
+
+# Nice URLs, no .html extensions dangling around
+permalink: pretty
+
+defaults:
+  - scope:
+      path: ""
+      type: "projects"
+    values:
+      layout: "project"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+exclude:
+  - README.md
+  - project-template.md
+  - Gemfile
+  - Gemfile.lock
